@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs"; // ✅ Import ClerkProvider
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import ConvexClientProvider from "@/components/providers/ConvexClientProvider";
+import Footer from "@/components/Footer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -23,12 +26,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
-      </body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-gradient-to-b from-gray-900 to-black text-gray-100 flex flex-col`}
+        >
+          <ConvexClientProvider>
+            <main className="flex-grow">{children}</main>
+          </ConvexClientProvider>
+
+          <Footer />
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
+
+
+
+// https://emkc.org/api/v2/piston/runtimes
