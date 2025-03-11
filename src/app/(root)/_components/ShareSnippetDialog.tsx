@@ -3,9 +3,10 @@
 import { useCodeEditorStore } from "@/store/useCodeEditorStore";
 import { useMutation } from "convex/react";
 import { useState } from "react";
-import { api } from "../../../../convex/_generated/api"; // Verify this path
+import { api } from "../../../../convex/_generated/api"; // Verify path
 import { X } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import { motion } from "framer-motion";
 
 function ShareSnippetDialog({ onClose }: { onClose: () => void }) {
   const [title, setTitle] = useState("");
@@ -15,7 +16,6 @@ function ShareSnippetDialog({ onClose }: { onClose: () => void }) {
 
   const handleShare = async (e: React.FormEvent) => {
     e.preventDefault();
-
     setIsSharing(true);
 
     try {
@@ -37,50 +37,73 @@ function ShareSnippetDialog({ onClose }: { onClose: () => void }) {
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-[#1e1e2e] rounded-lg p-6 w-full max-w-md">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 backdrop-blur-lg"
+      >
+        <motion.div
+          initial={{ scale: 0.9 }}
+          animate={{ scale: 1 }}
+          exit={{ scale: 0.9 }}
+          className="bg-[#1e1e2e] shadow-xl shadow-black/40 rounded-2xl p-6 w-full max-w-md border border-white/10"
+        >
+          {/* Header */}
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-white">Share Snippet</h2>
-            <button onClick={onClose} className="text-gray-400 hover:text-gray-300">
-              <X className="w-5 h-5" />
-            </button>
+            <h2 className="text-xl font-semibold text-white">🚀 Share Your Snippet</h2>
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-200 transition"
+            >
+              <X className="w-6 h-6" />
+            </motion.button>
           </div>
 
+          {/* Form */}
           <form onSubmit={handleShare}>
             <div className="mb-4">
               <label htmlFor="title" className="block text-sm font-medium text-gray-400 mb-2">
-                Title
+                Snippet Title
               </label>
               <input
                 type="text"
                 id="title"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
-                className="w-full px-3 py-2 bg-[#181825] border border-[#313244] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-4 py-2 bg-[#181825] border border-[#313244] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow shadow-md hover:shadow-blue-500/30"
                 placeholder="Enter snippet title"
                 required
               />
             </div>
 
+            {/* Buttons */}
             <div className="flex justify-end gap-3">
-              <button
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 text-gray-400 hover:text-gray-300"
+                className="px-4 py-2 text-gray-400 hover:text-white transition"
               >
                 Cancel
-              </button>
-              <button
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
                 type="submit"
                 disabled={isSharing}
-                className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
+                className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-700 text-white rounded-lg font-medium shadow-md hover:shadow-blue-500/40 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSharing ? "Sharing..." : "Share"}
-              </button>
+              </motion.button>
             </div>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
+
       <Toaster position="top-right" />
     </>
   );

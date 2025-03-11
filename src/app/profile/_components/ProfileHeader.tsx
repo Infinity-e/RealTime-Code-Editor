@@ -3,7 +3,6 @@ import { api } from "../../../../convex/_generated/api";
 import { Activity, Code2, Star, Timer, TrendingUp, Trophy, UserIcon, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import { Id } from "../../../../convex/_generated/dataModel";
-
 import { UserResource } from "@clerk/types";
 
 interface ProfileHeaderProps {
@@ -19,9 +18,7 @@ interface ProfileHeaderProps {
   userData: {
     _id: Id<"users">;
     _creationTime: number;
-    proSince?: number | undefined;
-    lemonSqueezyCustomerId?: string | undefined;
-    lemonSqueezyOrderId?: string | undefined;
+    proSince?: number;
     name: string;
     userId: string;
     email: string;
@@ -38,7 +35,6 @@ function ProfileHeader({ userStats, userData, user }: ProfileHeaderProps) {
       value: userStats?.totalExecutions ?? 0,
       icon: Activity,
       color: "from-blue-500 to-cyan-500",
-      gradient: "group-hover:via-blue-400",
       description: "Total code runs",
       metric: {
         label: "Last 24h",
@@ -51,7 +47,6 @@ function ProfileHeader({ userStats, userData, user }: ProfileHeaderProps) {
       value: starredSnippets?.length ?? 0,
       icon: Star,
       color: "from-yellow-500 to-orange-500",
-      gradient: "group-hover:via-yellow-400",
       description: "Saved for later",
       metric: {
         label: "Most starred",
@@ -64,7 +59,6 @@ function ProfileHeader({ userStats, userData, user }: ProfileHeaderProps) {
       value: userStats?.languagesCount ?? 0,
       icon: Code2,
       color: "from-purple-500 to-pink-500",
-      gradient: "group-hover:via-purple-400",
       description: "Different languages",
       metric: {
         label: "Most used",
@@ -75,41 +69,36 @@ function ProfileHeader({ userStats, userData, user }: ProfileHeaderProps) {
   ];
 
   return (
-    <div
-      className="relative mb-8 bg-gradient-to-br from-[#12121a] to-[#1a1a2e] rounded-2xl p-8 border
-     border-gray-800/50 overflow-hidden"
-    >
+    <div className="relative mb-8 bg-gradient-to-br from-[#12121a] to-[#1a1a2e] rounded-2xl p-6 sm:p-8 border border-gray-800/50 overflow-hidden">
+      {/* Background Grid */}
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:32px]" />
-      <div className="relative flex items-center gap-8">
+
+      {/* Profile Info */}
+      <div className="relative flex flex-col sm:flex-row items-center sm:items-start gap-6">
         <div className="relative group">
-          <div
-            className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full 
-          blur-xl opacity-50 group-hover:opacity-75 transition-opacity"
-          />
+          {/* Profile Glow Effect */}
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
           <img
             src={user.imageUrl}
             alt="Profile"
-            className="w-24 h-24 rounded-full border-4 border-gray-800/50 relative z-10 group-hover:scale-105 transition-transform"
+            className="w-20 sm:w-24 h-20 sm:h-24 rounded-full border-4 border-gray-800/50 relative z-10 group-hover:scale-105 transition-transform"
           />
           {userData.isPro && (
-            <div
-              className="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-purple-600 p-2
-             rounded-full z-20 shadow-lg animate-pulse"
-            >
+            <div className="absolute -top-2 -right-2 bg-gradient-to-r from-purple-500 to-purple-600 p-2 rounded-full z-20 shadow-lg animate-pulse">
               <Zap className="w-4 h-4 text-white" />
             </div>
           )}
         </div>
-        <div>
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold text-white">{userData.name}</h1>
+        <div className="text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center sm:items-start gap-2">
+            <h1 className="text-2xl sm:text-3xl font-bold text-white">{userData.name}</h1>
             {userData.isPro && (
-              <span className="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-sm font-medium">
+              <span className="px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-xs sm:text-sm font-medium">
                 Pro Member
               </span>
             )}
           </div>
-          <p className="text-gray-400 flex items-center gap-2">
+          <p className="text-gray-400 flex items-center justify-center sm:justify-start gap-2 mt-1">
             <UserIcon className="w-4 h-4" />
             {userData.email}
           </p>
@@ -117,47 +106,42 @@ function ProfileHeader({ userStats, userData, user }: ProfileHeaderProps) {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mt-8">
         {STATS.map((stat, index) => (
           <motion.div
+            key={index}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            key={index}
-            className="group relative bg-gradient-to-br from-black/40 to-black/20 rounded-2xl overflow-hidden"
+            className="group relative bg-gradient-to-br from-black/40 to-black/20 rounded-2xl overflow-hidden p-4 sm:p-6"
           >
-            {/* Glow effect */}
-            <div
-              className={`absolute inset-0 bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-10 transition-all 
-              duration-500 ${stat.gradient}`}
-            />
+            {/* Hover Glow Effect */}
+            <div className={`absolute inset-0 bg-gradient-to-r ${stat.color} opacity-0 group-hover:opacity-10 transition-all duration-500`} />
 
             {/* Content */}
-            <div className="relative p-6">
-              <div className="flex items-start justify-between mb-4">
+            <div className="relative">
+              <div className="flex items-center justify-between mb-3">
                 <div>
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="text-sm font-medium text-gray-400">{stat.description}</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-white tracking-tight">
+                  <span className="text-xs font-medium text-gray-400">{stat.description}</span>
+                  <h3 className="text-xl sm:text-2xl font-bold text-white">
                     {typeof stat.value === "number" ? stat.value.toLocaleString() : stat.value}
                   </h3>
-                  <p className="text-sm text-gray-400 mt-1">{stat.label}</p>
+                  <p className="text-xs text-gray-400 mt-1">{stat.label}</p>
                 </div>
                 <div className={`p-3 rounded-xl bg-gradient-to-br ${stat.color} bg-opacity-10`}>
                   <stat.icon className="w-5 h-5 text-white" />
                 </div>
               </div>
 
-              {/* Additional metric */}
+              {/* Additional Metric */}
               <div className="flex items-center gap-2 pt-4 border-t border-gray-800/50">
                 <stat.metric.icon className="w-4 h-4 text-gray-500" />
-                <span className="text-sm text-gray-400">{stat.metric.label}:</span>
-                <span className="text-sm font-medium text-white">{stat.metric.value}</span>
+                <span className="text-xs text-gray-400">{stat.metric.label}:</span>
+                <span className="text-xs font-medium text-white">{stat.metric.value}</span>
               </div>
             </div>
 
-            {/* Interactive hover effect */}
+            {/* Subtle Hover Effect */}
             <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full duration-1000 transition-transform" />
           </motion.div>
         ))}
@@ -165,4 +149,5 @@ function ProfileHeader({ userStats, userData, user }: ProfileHeaderProps) {
     </div>
   );
 }
+
 export default ProfileHeader;

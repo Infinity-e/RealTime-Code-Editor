@@ -10,7 +10,9 @@ function Footer() {
         {/* Left Side - Logo & Tagline */}
         <div className="flex items-center gap-3">
           <Blocks className="size-6 text-teal-400" />
-          <span className="text-gray-300 text-sm md:text-base font-medium">
+          <span className="text-gray-300 text-lg md:text-xl font-semibold
+
+">
             Built for developers, by developers
           </span>
         </div>

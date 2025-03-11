@@ -49,15 +49,14 @@ function LanguageSelector() {
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="group relative flex items-center gap-3 px-4 py-2.5 bg-[#1e1e2e]/80 
-        rounded-lg transition-all duration-200 border border-gray-800/50 hover:border-gray-700"
+        className="group relative flex items-center gap-3 px-4 py-2 bg-gray-800/80 rounded-full 
+        transition-all duration-300 border border-gray-700/50 hover:border-indigo-500/50 shadow-md"
       >
         <div
-          className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/5 
-          rounded-lg opacity-0 group-hover:opacity-100 transition-opacity"
-          aria-hidden="true"
+          className="absolute -inset-1 bg-gradient-to-r from-indigo-500/20 to-purple-500/20 rounded-full 
+          opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-xl"
         />
-        <div className="size-6 rounded-md bg-gray-800/50 p-0.5 group-hover:scale-110 transition-transform">
+        <div className="size-7 rounded-full bg-gray-900/50 p-1 group-hover:scale-105 transition-transform">
           <Image
             src={currentLanguageObj.logoPath}
             alt={`${currentLanguageObj.label} logo`}
@@ -66,11 +65,12 @@ function LanguageSelector() {
             className="w-full h-full object-contain relative z-10"
           />
         </div>
-        <span className="text-gray-200 min-w-[80px] text-left group-hover:text-white transition-colors">
+        <span className="text-gray-200 min-w-[80px] text-sm font-medium text-left group-hover:text-indigo-200 
+        transition-colors tracking-tight">
           {currentLanguageObj.label}
         </span>
         <ChevronDownIcon
-          className={`size-4 text-gray-400 transition-all duration-300 group-hover:text-gray-300
+          className={`size-5 text-gray-400 transition-all duration-300 group-hover:text-indigo-300
             ${isOpen ? "rotate-180" : ""}`}
         />
       </motion.button>
@@ -82,13 +82,14 @@ function LanguageSelector() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.2 }}
-            className="absolute top-full left-0 mt-2 w-64 bg-[#1e1e2e]/95 backdrop-blur-xl
-            rounded-xl border border-[#313244] shadow-2xl py-2 z-50"
+            className="absolute top-full left-0 mt-2 w-64 bg-gradient-to-br from-gray-800 to-gray-900 backdrop-blur-md
+            rounded-xl border border-gray-700/50 shadow-xl py-2 z-50"
           >
-            <div className="px-3 pb-2 mb-2 border-b border-gray-800/50">
-              <p className="text-xs font-medium text-gray-400">Select Language</p>
+            <div className="px-3 pb-2 mb-2 border-b border-gray-700/50">
+              <p className="text-xs font-medium text-gray-400 tracking-tight">Select Language</p>
             </div>
-            <div className="max-h-[280px] overflow-y-auto overflow-x-hidden">
+            <div className="max-h-[280px] overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-700 
+            scrollbar-track-gray-800">
               {Object.values(LANGUAGE_CONFIG).map((lang, index) => (
                 <motion.div
                   key={lang.id}
@@ -99,25 +100,25 @@ function LanguageSelector() {
                 >
                   <button
                     className={`
-                      relative w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200
-                      ${language === lang.id ? "bg-blue-500/10 text-blue-400" : "text-gray-300"}
-                      hover:bg-[#262637]
+                      relative w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200
+                      ${language === lang.id ? "bg-indigo-500/20 text-indigo-300" : "text-gray-300"}
+                      hover:bg-indigo-500/30
                     `}
                     onClick={() => handleLanguageSelect(lang.id)}
                   >
                     <div
-                      className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-purple-500/5 rounded-lg 
-                      opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute -inset-1 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 rounded-lg 
+                      opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-sm"
                     />
                     <div
                       className={`
-                        relative size-8 rounded-lg p-1.5 group-hover:scale-110 transition-transform
-                        ${language === lang.id ? "bg-blue-500/10" : "bg-gray-800/50"}
+                        relative size-8 rounded-full p-1.5 group-hover:scale-105 transition-transform
+                        ${language === lang.id ? "bg-indigo-500/20" : "bg-gray-800/50"}
                       `}
                     >
                       <div
-                        className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-lg 
-                        opacity-0 group-hover:opacity-100 transition-opacity"
+                        className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-purple-500/10 rounded-full 
+                        opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                       />
                       <Image
                         width={24}
@@ -127,20 +128,21 @@ function LanguageSelector() {
                         className="w-full h-full object-contain relative z-10"
                       />
                     </div>
-                    <span className="flex-1 text-left group-hover:text-white transition-colors">
+                    <span className="flex-1 text-sm font-medium text-left group-hover:text-indigo-200 
+                    transition-colors tracking-tight">
                       {lang.label}
                     </span>
                     {language === lang.id && (
                       <>
                         <motion.div
-                          className="absolute inset-0 border-2 border-blue-500/30 rounded-lg"
+                          className="absolute inset-0 border-2 border-indigo-500/40 rounded-lg"
                           transition={{
                             type: "spring",
                             bounce: 0.2,
                             duration: 0.6,
                           }}
                         />
-                        <Sparkles className="w-4 h-4 text-blue-400 animate-pulse" />
+                        <Sparkles className="w-4 h-4 text-indigo-400 animate-pulse" />
                       </>
                     )}
                   </button>
