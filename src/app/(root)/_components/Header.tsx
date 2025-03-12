@@ -15,8 +15,9 @@ export default async function Header() {
 
   // Fetch convexUser server-side; handle null/undefined cases
   const convexUser = user?.id
-    ? await convex.query(api.users.getUser, { userId: user.id })
-    : null;
+  ? await convex.query(api.users.getUser, { userId: user.id })
+  : null;
+
 
   // Determine hasAccess based on convexUser
   const hasAccess = convexUser && convexUser.isPro ? true : false;
