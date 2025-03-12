@@ -15,9 +15,8 @@ export default async function Header() {
 
   // Fetch convexUser server-side; handle null/undefined cases
   const convexUser = user?.id
-  ? await convex.query(api.users.getUser, { userId: user.id })
-  : null;
-
+    ? await convex.query(api.users.getUser, { userId: user.id })
+    : null;
 
   // Determine hasAccess based on convexUser
   const hasAccess = convexUser && convexUser.isPro ? true : false;
@@ -82,27 +81,27 @@ export default async function Header() {
             <LanguageSelector hasAccess={hasAccess} />
           </div>
 
-          {!hasAccess && (
+          {/* {!hasAccess && (
             <Link
               href=""
               className="flex items-center gap-2 px-4 py-1.5 rounded-lg border border-amber-500/20 hover:border-amber-500/40 bg-gradient-to-r from-amber-500/10 
                 to-orange-500/10 hover:from-amber-500/20 hover:to-orange-500/20 
                 transition-all duration-300"
             >
-              {/* <Sparkles className="w-4 h-4 text-amber-400 hover:text-amber-300" />
+              <Sparkles className="w-4 h-4 text-amber-400 hover:text-amber-300" />
               <span className="text-sm font-medium text-amber-400/90 hover:text-amber-300">
                 Pro
-              </span> */}
+              </span>
             </Link>
-          )}
+          )} */}
 
           <SignedIn>
             <RunButton />
           </SignedIn>
-
+          {/* 
           <div className="pl-3 border-l border-gray-800">
             <HeaderProfileBtn />
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
