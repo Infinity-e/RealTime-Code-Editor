@@ -26,7 +26,7 @@ const About = () => {
       </motion.p>
 
       {/* Features Section */}
-      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl">
+      <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-9 max-w-5xl">
         {features.map((feature, index) => (
           <motion.div 
             key={index} 
@@ -36,7 +36,7 @@ const About = () => {
             className="p-6 bg-gray-700/50 rounded-2xl shadow-lg backdrop-blur-lg hover:scale-105 transition-transform"
           >
             <h3 className="text-xl font-semibold">{feature.title}</h3>
-            <p className="mt-2 text-gray-300">{feature.description}</p>
+            <p className="mt-2 text-gray-400">{feature.description}</p>
           </motion.div>
         ))}
       </div>
