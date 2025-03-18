@@ -38,12 +38,23 @@ export default function Navbar() {
               About
             </Link>
           </li>
-          <button
+
+          <li>
+            <Link
+              href="/join"
+              className="px-4 py-2 rounded-lg bg-gray-800 text-white transition-all duration-300 
+                          hover:bg-gray-700 hover:shadow-lg hover:shadow-blue-500/50"
+            >
+               Real-Time Editor
+            </Link>
+          </li>
+
+          {/* <button
             onClick={() => router.push("/join")}
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
           >
             Real-Time Editor
-          </button>
+          </button> */}
 
           <SignedIn>
             <li>

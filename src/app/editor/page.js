@@ -133,6 +133,114 @@
 //     );
 // }
 
+// "use client";
+// import { useState, useEffect } from "react";
+// import { useSearchParams } from "next/navigation";
+// import useWebSocket from "react-use-websocket";
+// import Editor from "@monaco-editor/react";
+
+// const defaultCode = {
+//     javascript: `console.log("Hello, World!");`,
+//     python: `print("Hello, World!")`,
+// };
+
+// export default function CodeEditor() {
+//     const searchParams = useSearchParams();
+//     const roomId = searchParams.get("roomId");
+//     const name = searchParams.get("name");
+
+//     const [code, setCode] = useState(defaultCode.javascript);
+//     const [language, setLanguage] = useState("javascript");
+//     const [users, setUsers] = useState([]);
+//     const [output, setOutput] = useState("Click 'Run Code' to see output...");
+
+//     const { sendJsonMessage, lastJsonMessage } = useWebSocket("ws://localhost:8080", {
+//         onOpen: () => sendJsonMessage({ type: "join", roomId, name }),
+//         shouldReconnect: () => true,
+//     });
+
+//     useEffect(() => {
+//         if (lastJsonMessage) {
+//             if (lastJsonMessage.type === "codeUpdate") {
+//                 setCode(lastJsonMessage.code);
+//             }
+//             if (lastJsonMessage.type === "usersUpdate") {
+//                 setUsers(lastJsonMessage.users);
+//             }
+//             if (lastJsonMessage.type === "executionResult") {
+//                 setOutput(lastJsonMessage.output.trim() || "No output.");
+//             }
+//         }
+//     }, [lastJsonMessage]);
+
+//     const handleCodeChange = (newCode) => {
+//         setCode(newCode);
+//         sendJsonMessage({ type: "codeUpdate", roomId, code: newCode });
+//     };
+
+//     const handleLanguageChange = (event) => {
+//         const selectedLanguage = event.target.value;
+//         setLanguage(selectedLanguage);
+//         setCode(defaultCode[selectedLanguage]);
+//     };
+
+//     const handleRunCode = () => {
+//         setOutput("Running..."); // Show loading
+//         sendJsonMessage({ type: "runCode", roomId, language, code });
+//     };
+
+//     return (
+//         <div className="flex h-screen bg-gray-900 text-white">
+//             {/* Sidebar for Users */}
+//             <div className="w-1/5 bg-gray-800 p-4 border-r border-gray-700">
+//                 <h2 className="text-lg font-semibold mb-4">Connected Users</h2>
+//                 {users.map((user, index) => (
+//                     <div key={index} className="flex items-center gap-3 mb-3">
+//                         <span className="w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded-full">
+//                             {user.name.charAt(0)}
+//                         </span>
+//                         <span>{user.name}</span>
+//                     </div>
+//                 ))}
+//             </div>
+
+//             {/* Code Editor Section */}
+//             <div className="flex-1 flex flex-col p-4">
+//                 <div className="flex justify-between items-center mb-4">
+//                     <select
+//                         onChange={handleLanguageChange}
+//                         value={language}
+//                         className="p-2 bg-gray-700 text-white rounded-md"
+//                     >
+//                         <option value="javascript">JavaScript</option>
+//                         <option value="python">Python</option>
+//                     </select>
+//                     <button
+//                         className="bg-blue-500 hover:bg-blue-600 px-4 py-2 rounded-md"
+//                         onClick={handleRunCode}
+//                     >
+//                         Run Code
+//                     </button>
+//                 </div>
+//                 <Editor
+//                     height="60vh"
+//                     language={language}
+//                     value={code}
+//                     onChange={handleCodeChange}
+//                     theme="vs-dark"
+//                 />
+
+//                 {/* Output Section */}
+//                 <div className="bg-gray-800 mt-4 p-4 rounded-md h-32 overflow-auto border border-gray-700">
+//                     <h3 className="text-lg font-semibold">Output:</h3>
+//                     <pre className="text-green-400">{output}</pre>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// }
+
+
 "use client";
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
@@ -185,13 +293,12 @@ export default function CodeEditor() {
     };
 
     const handleRunCode = () => {
-        setOutput("Running..."); // Show loading
+        setOutput("Running...");
         sendJsonMessage({ type: "runCode", roomId, language, code });
     };
 
     return (
         <div className="flex h-screen bg-gray-900 text-white">
-            {/* Sidebar for Users */}
             <div className="w-1/5 bg-gray-800 p-4 border-r border-gray-700">
                 <h2 className="text-lg font-semibold mb-4">Connected Users</h2>
                 {users.map((user, index) => (
@@ -204,7 +311,6 @@ export default function CodeEditor() {
                 ))}
             </div>
 
-            {/* Code Editor Section */}
             <div className="flex-1 flex flex-col p-4">
                 <div className="flex justify-between items-center mb-4">
                     <select
@@ -229,8 +335,6 @@ export default function CodeEditor() {
                     onChange={handleCodeChange}
                     theme="vs-dark"
                 />
-
-                {/* Output Section */}
                 <div className="bg-gray-800 mt-4 p-4 rounded-md h-32 overflow-auto border border-gray-700">
                     <h3 className="text-lg font-semibold">Output:</h3>
                     <pre className="text-green-400">{output}</pre>
